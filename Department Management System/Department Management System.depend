@@ -1,0 +1,12 @@
+# depslib dependency file v1.0
+1688055264 source:e:\c++\department management system\main.cpp
+	<iostream>
+	<conio.h>
+	<stdio.h>
+	<fstream>
+	<stdlib.h>
+	<cstdlib>
+	<string>
+	<string_view>
+	<regex>
+
