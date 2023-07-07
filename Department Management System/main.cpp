@@ -15,9 +15,31 @@ struct User {
     string password;
 };
 
+bool Emailcheck(string email)
+{
+    const regex pattern("(\\w+)(\\.|_)?(\\w*)@(\\w+)(\\.(\\w+))+");
+    return regex_match(email, pattern);
+}
+
+bool Passcheck(string password)
+{
+    const regex pattern("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+=])(?=\\S+$).{8,}");
+    return regex_match(password, pattern);
+}
+
+bool Coursecheck(string course)
+{
+    const regex pattern("^[A-Za-z][A-Za-z_]{3,29}$");
+    return regex_match(course, pattern);
+}
+bool studentcheck(string name)
+{
+    const regex pattern("^[A-Za-z][A-Za-z_]{3,29}$");
+    return regex_match(name, pattern);
+}
 // Function to check if a username already exists
 bool isUsernameExists(const string& username) {
-    ifstream file("users.txt");
+    ifstream file("users.txt"); //input mode in file
     string line;
     while (getline(file, line)) {
         if (line == username) {
@@ -32,10 +54,31 @@ bool isUsernameExists(const string& username) {
 // Function to create a new user account
 void signUp() {
     User newUser;
-    cout << "Enter username: ";
+    email:
+     cout << "Enter E~mail ID: ";
     getline(cin, newUser.username);
+    if (Emailcheck(newUser.username))
+    {
+        cout << "\t\t\t Your Email-Id is Valid" << endl;
+    }
+    else
+    {
+        cout << "\t\t\t Your Email-Id is InValid" << endl;
+        goto email;
+    }
+
+    password:
     cout << "Enter password: ";
     getline(cin, newUser.password);
+    if (Passcheck(newUser.password))
+    {
+        cout << "\t\t\t Your Password  is Valid" << endl;
+    }
+    else
+    {
+        cout << "\t\t\t Your Password is InValid \n\t\t\t please enter minimum 8 letters with atleast one Capital letter,small letter, interger, symbols  :)  " << endl;
+        goto password;
+    }
 
     if (isUsernameExists(newUser.username)) {
         cout << "Username already exists. Please try again with a different username.\n";
@@ -54,7 +97,7 @@ bool signIn() {
 
 
     User user;
-    cout << "Enter username: ";
+    cout << "Enter registered E~mail ID: ";
     getline(cin, user.username);
     cout << "Enter password: ";
     getline(cin, user.password);
@@ -75,17 +118,9 @@ bool signIn() {
     return false;
 }
 
-// Email Vaildation Pattern
-bool Emailcheck(string email)
-{
-    const regex pattern("(\\w+)(\\.|_)?(\\w*)@(\\w+)(\\.(\\w+))+");
-    return regex_match(email, pattern);
-}
-bool Coursecheck(string course)
-{
-    const regex pattern("^[A-Za-z][A-Za-z_]{3,29}$");
-    return regex_match(course, pattern);
-}
+
+
+
 class dept
 {
 private:
@@ -208,7 +243,7 @@ menustart:
     getch();
     goto menustart;
 }
-// Project Menu
+
 
 void dept::home_menu()
 {
@@ -328,7 +363,7 @@ void dept::ctpg() // Add CTPG details
     cout<<"\n\n    PO5    Modern tool usage: Create, select and apply appropriate techniques, resources, and computing technologies necessary for computing practices.";
     cout<<"\n\n    PO6    Professional Ethics: Understand and practice professional ethics in multidisciplinary environments";
     cout<<"\n\n    PO7    Life-long learning: Recognize the need for and have the preparation and ability to engage in independent and life-long learning in the broadest context of technological change.";
-    cout<<"\n\n    PO8    Project management and finance: Demonstrate knowledge and understanding of the computing and management principles and apply these to one’s own work, as a member and leader in\n           a team, to manage projects in multidisciplinary environments.";
+    cout<<"\n\n    PO8    Project management and finance: Demonstrate knowledge and understanding of the computing and management principles and apply these to oneâ€™s own work, as a member and leader in\n           a team, to manage projects in multidisciplinary environments.";
     cout<<"\n\n    PO9    Communication Efficacy: Communicate effectively on broadly defined computing community and with society by being able to comprehend and write effective reports, design documentation\n           and make effective presentations.";
     cout<<"\n\n    PO10   Societal and Environmental Concern: Understand and assess societal, environmental, health, safety, legal and cultural issues within local and global contexts and the consequential\n           responsibilities relevant to professional computing practice.";
     cout<<"\n\n    PO11   Individual and team work: Function effectively as an individual and as a member or leader in diverse technical teams.";
@@ -353,7 +388,7 @@ void dept::lab() // Laboratories  details
 cout << "\n\n<~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Laboratories ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>" << endl;
 cout << "\n\n\n LABORATORY FACILITIES " << endl;
 cout<<"\n\n     1)   Computer laboratory is furnished with 125 Computer Systems and one Server worth INR. 49, 70,535 to cater the needs of the students.\n\n     2)   The FTP Server is installed with UBUNTU.\n\n     3)   Students can develop simple software using C, C++, Java and Microsoft Visual Studio.";
-cout<<"\n\n     4)   Oracle 10G Client is installed for Relational Database Management Laboratory ­to create and interact with database.\n\n     5)   Students can design and develop software using Rational Rose and other software development tools.\n\n     6)   Students can design and develop interactive web page using HTML, CSS, Java Script, J2EE and .Net Framework Technologies.";
+cout<<"\n\n     4)   Oracle 10G Client is installed for Relational Database Management Laboratory Â­to create and interact with database.\n\n     5)   Students can design and develop software using Rational Rose and other software development tools.\n\n     6)   Students can design and develop interactive web page using HTML, CSS, Java Script, J2EE and .Net Framework Technologies.";
 cout<<"\n\n     7)   Provide practical exposure on Linux platform by creating and executing applications using gcc compiler.\n\n     8)   Cloud Computing Techniques are imparted to the students using Free and Open source software like Virtual Box.\n\n     9)   Students can analyze and simulate testing methodologies using testing frameworks such as Selenium, JUnit.\n\n     10)  The Free and Open source software is downloaded and customized to meet the requirements of the software design methodologies.";
 }
 
@@ -378,8 +413,6 @@ void dept::insert() // Add Course details
     cout << "\t\t\tEnter Course Code: ";
     cin >> course_code;
 
-    cout << "\t\t\tEnter Faculity Name: ";
-    cin >> course;
     course:
     cout << "\t\t\tEnter Faculity Name(OnlY Letters): ";
     cin >> course;
@@ -414,11 +447,11 @@ contact:
     }
     cout << "\t\t\tEnter Course Details: ";
     cin >> address;
-    file.open("CourseRecord.txt", ios::app | ios::out);
+    file.open("CourseRecord.txt", ios::app | ios::out);// ios input output screen,  app:append
     file << " " << course_name << " " << course_code << " " << course << " " << email_id << " " << contact_no << " " << address << "\n";
     file.close();
 }
-void dept::display() // Display data of student
+void dept::display() // Display data in courses
 {
     system("cls");
     fstream file;
@@ -434,7 +467,7 @@ void dept::display() // Display data of student
     else
     {
         file >> course_name >> course_code >> course >> email_id >> contact_no >> address;
-        while (!file.eof())
+        while (!file.eof())// end of file
         {
             cout << "\n\n\t\t\tCourse No.: " << total++ << endl;
             cout << "\t\t\tCourse Name: " << course_name << "\n";
@@ -454,7 +487,7 @@ void dept::display() // Display data of student
 
     file.close();
 }
-void dept::modify() // Modify details of student
+void dept::modify() // Modify details of course
 {
     system("cls");
     fstream file, file1;
@@ -524,7 +557,7 @@ void dept::modify() // Modify details of student
     }
 }
 
-void dept::search() // search data of student
+void dept::search() // search data of courses
 {
     system("cls");
     fstream file;
@@ -565,7 +598,7 @@ void dept::search() // search data of student
         file.close();
     }
 }
-void dept::deleted() // ddeleted data of student
+void dept::deleted() // ddeleted data of course
 {
     system("cls");
     fstream file, file1;
@@ -609,7 +642,7 @@ void dept::deleted() // ddeleted data of student
     }
 }
 
-void dept::faculty()
+void dept::faculty()  // faculity details
 {
 menustart:
     int choice;
@@ -755,8 +788,19 @@ void dept::add_plc() // Add placement details
     fstream file;
     cout << "\n-------------------------------------------------------------------------------------------------------" << endl;
     cout << "------------------------------------- Add Placed Student Details ---------------------------------------------" << endl;
-    cout << "\t\t\tEnter Student Name: ";
+     name:
+      cout << "\t\t\tEnter Student Name: ";
     cin >> name;
+    if (studentcheck(name))
+    {
+        cout << "\t\t\t Your Student name is Valid" << endl;
+    }
+    else
+    {
+        cout << "\t\t\t Your Student name is InValid" << endl;
+        goto name;
+    }
+
     cout << "\t\t\tEnter Student Roll Number: ";
     cin >> roll_no;
     cout << "\t\t\tEnter Company Name: ";
@@ -772,9 +816,39 @@ void dept::add_plc() // Add placement details
     }
     cout << "\t\t\tEnter Package (eg:5LPA) ";
     cin >> package;
-     cout << "\t\t\tEnter Date of Placed (29.06.2023) ";
-    cin >> date;
-    cout << "\t\t\tEnter Company Location: ";
+    int day,month,year;
+
+  cout<<"Enter the date (Day Month Year) : \n";
+
+  cin>>day>>month>>year;
+
+  if(1000 <= year <= 3000)
+       {
+         if((month==1 || month==3 || month==5|| month==7|| month==8||month==10||month==12) && day>0 && day<=31)
+         cout<<"It is valid";
+         else
+     if(month==4 || month==6 || month==9|| month==11 && day>0 && day<=30)
+            cout<<"It is Valid";
+         else
+            if(month==2)
+               {
+               if((year%400==0 || (year%100!=0 && year%4==0)) && day>0 && day<=29)
+                 cout<<"It is Valide";
+               else if(day>0 && day<=28)
+                  cout<<"It is Valid";
+               else
+                  cout<<"It is Invalid";
+               }
+         else
+               cout<<"It is Invalid";
+      }
+    else
+        cout<<"It is Invalid";
+
+     cout << "\t\t\tEnter Date of Placed (29.06.2023) :";
+     cin>>date;
+//date=(day>>"/">>month>>"/">>year);
+    cout << "\n\t\t\tEnter Company Location: ";
     cin >> address;
     file.open("PlacementRecord.txt", ios::app | ios::out);
     file << " " << name << " " << roll_no << " " << company << " " << contact_no << " "<< package<<" " <<date<<" "<< address << "\n";
@@ -806,7 +880,7 @@ void dept::display_plc() // Display data of student
             cout << "\t\t\tContact No.: " << contact_no << "\n";
             cout <<"\t\t\tPackage : "<<package<<"\n";
             cout<<"\t\t\tDate of Placed : "<<date<<"\n";
-            cout << "\t\t\tLocaion : " << address << "\n";
+            cout << "\t\t\tLocation : " << address << "\n";
             file >> name >> roll_no >> company >> contact_no >>package>>date>> address;
         }
         if (total == 0)
